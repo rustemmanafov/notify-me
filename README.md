@@ -185,6 +185,10 @@ export NOTIFY_STYLE="funny"
 # Message language: en (default) | az | tr | ru | zh | es | de | fr
 export NOTIFY_LANG="en"
 
+# Telegram stickers: a pack name, or "off" to disable
+# (defaults to the Hasbulla pack when unset)
+export NOTIFY_STICKER_SET="hasbullahasbulla2"
+
 # Telegram
 export TELEGRAM_BOT_TOKEN="123456789:ABCdefGhIJKlmNoPQRstuVWxyz"
 export TELEGRAM_CHAT_ID="987654321"
