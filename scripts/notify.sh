@@ -46,9 +46,10 @@ TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 STYLE="${NOTIFY_STYLE:-funny}"
 LANG_CODE="${NOTIFY_LANG:-en}"
 
-# Azerbaijani users get the Hasbulla sticker pack by default. 🐐
-# Set NOTIFY_STICKER_SET="off" to disable stickers entirely.
-if [ -z "${NOTIFY_STICKER_SET:-}" ] && [ -z "${NOTIFY_STICKERS:-}" ] && [ "$LANG_CODE" = "az" ]; then
+# Everyone gets the Hasbulla sticker pack by default — this plugin is
+# about having fun. 🐐 Set NOTIFY_STICKER_SET="off" to disable stickers,
+# or set another pack name to use a different one.
+if [ -z "${NOTIFY_STICKER_SET:-}" ] && [ -z "${NOTIFY_STICKERS:-}" ]; then
   NOTIFY_STICKER_SET="hasbullahasbulla2"
 fi
 case "${NOTIFY_STICKER_SET:-}" in

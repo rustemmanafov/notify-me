@@ -61,17 +61,21 @@ export NOTIFY_LANG="az"
 
 The labels (Project/Time) and plain-style headlines are translated too. Each language has its own set of 15+ casual, friendly headlines per event — not literal translations, but jokes that actually work in that language. The Azerbaijani set comes with bonus lines inspired by local viral memes. 🇦🇿
 
-## Telegram stickers (optional)
+## Telegram stickers
 
-On Telegram, the plugin can send a **random sticker** right after each notification — Hasbulla, cats, whatever you like. 😄 The easiest way is to point it at any public sticker pack by name:
+On Telegram, every notification is followed by a **random Hasbulla sticker** — on by default, because this plugin is about having fun. 🐐 No setup needed: your bot fetches the public pack (`hasbullahasbulla2`) itself and sends a random sticker from it.
+
+Don't want stickers? Turn them off:
 
 ```bash
-export NOTIFY_STICKER_SET="hasbullahasbulla2"
+export NOTIFY_STICKER_SET="off"
 ```
 
-That's it — your bot fetches the pack itself and sends a random sticker from it after every notification. This works for everyone out of the box.
+Want a different pack? Point at any public sticker pack by name:
 
-🇦🇿 **Azerbaijani default:** when `NOTIFY_LANG="az"`, the Hasbulla pack (`hasbullahasbulla2`) is enabled automatically — no setup needed. To turn stickers off, set `NOTIFY_STICKER_SET="off"`; to use a different pack, just set another name.
+```bash
+export NOTIFY_STICKER_SET="your_favorite_pack"
+```
 
 To find a pack's name: open the sticker pack in Telegram, tap share/copy link — the link looks like `https://t.me/addstickers/<pack_name>`; use the `<pack_name>` part.
 

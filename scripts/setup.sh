@@ -59,9 +59,9 @@ case "$CHOICE" in
     EXPORTS="export TELEGRAM_BOT_TOKEN=\"$BOT_TOKEN\"
 export TELEGRAM_CHAT_ID=\"$CHAT_ID\""
     echo ""
-    echo "Bonus: send a random sticker after each notification? 😄"
-    echo "Enter a public sticker pack name (e.g. hasbullahasbulla2) or press Enter to skip."
-    printf "Sticker pack: "
+    echo "Stickers: every notification is followed by a random Hasbulla sticker by default. 🐐"
+    echo "Press Enter to keep it, type another public pack name to change it, or 'off' to disable."
+    printf "Sticker pack [hasbullahasbulla2]: "
     read -r STICKER_SET
     if [ -n "$STICKER_SET" ]; then
       EXPORTS="$EXPORTS
