@@ -71,6 +71,8 @@ export NOTIFY_STICKER_SET="hasbullahasbulla2"
 
 That's it — your bot fetches the pack itself and sends a random sticker from it after every notification. This works for everyone out of the box.
 
+🇦🇿 **Azerbaijani default:** when `NOTIFY_LANG="az"`, the Hasbulla pack (`hasbullahasbulla2`) is enabled automatically — no setup needed. To turn stickers off, set `NOTIFY_STICKER_SET="off"`; to use a different pack, just set another name.
+
 To find a pack's name: open the sticker pack in Telegram, tap share/copy link — the link looks like `https://t.me/addstickers/<pack_name>`; use the `<pack_name>` part.
 
 **Alternative: hand-picked stickers.** If you want specific stickers instead of a whole pack:

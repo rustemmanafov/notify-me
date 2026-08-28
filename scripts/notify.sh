@@ -46,6 +46,15 @@ TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 STYLE="${NOTIFY_STYLE:-funny}"
 LANG_CODE="${NOTIFY_LANG:-en}"
 
+# Azerbaijani users get the Hasbulla sticker pack by default. 🐐
+# Set NOTIFY_STICKER_SET="off" to disable stickers entirely.
+if [ -z "${NOTIFY_STICKER_SET:-}" ] && [ -z "${NOTIFY_STICKERS:-}" ] && [ "$LANG_CODE" = "az" ]; then
+  NOTIFY_STICKER_SET="hasbullahasbulla2"
+fi
+case "${NOTIFY_STICKER_SET:-}" in
+  off|none) NOTIFY_STICKER_SET="" ;;
+esac
+
 # ---------------------------------------------------------------------------
 # Funny headlines — one is picked at random for each notification.
 # Casual, friendly tone in every language. 15 per event per language.
