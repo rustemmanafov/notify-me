@@ -94,6 +94,11 @@ FUNNY_NOTIF_EN=(
   "🚪 That knocking? It's Claude. It has business with you."
   "☕ Claude took a break — you have time for a sip before it gets impatient."
   "🧠 Claude thought long and hard and decided to ask you."
+  "🫵 The whole team is waiting for you. The team is Claude."
+  "🥺 Claude shyly asks: may I do this?"
+  "⛔ Work stopped. Reason: you're not here."
+  "🖊️ Boss, one signature and we're back in business."
+  "🏃 Come quick! Claude is at the door holding the work."
 )
 
 FUNNY_STOP_AZ=(
@@ -153,6 +158,18 @@ FUNNY_NOTIF_AZ=(
   "📞 Alo, alo? Claude-du, bir sualı var."
   "🪢 Qamçıya ehtiyac yoxdu — Claude işləmək istəyir, sadəcə icazə gözləyir."
   "⛓️ Claude deyir: işləməyə hazıram, bircə sən 'hə' de."
+  "🗣️ Abi! Abi! Bir saniyə gəl e, vacib məsələ var!"
+  "🧑‍🔧 Usta, bir gəl bax e, bura sənlik iş var."
+  "🚬 Claude siqaretə çıxmayıb e, səni gözləyir. Gəl bir icazə ver."
+  "🧓 Ay bala, bir gəl görüm — bu düyməyə basım, basmayım?"
+  "💀 Claude: “Narahat olma, mən həll edərəm.” Həmçinin Claude: “Abi, bir sual...”"
+  "📞 Alo, müdir? Burda bir imza lazımdı, sənsiz olmur."
+  "🫵 Səni gözləyirik, qaqa. Bütün komanda dayanıb."
+  "🥺 Claude utana-utana soruşur: olar bunu edim?"
+  "⛔ İş dayandı. Səbəb: sən yoxsan."
+  "🖊️ Rəis, bir imza at, işimizi görək də."
+  "🤲 Ay qaqa, bir “hə” de, qurtaraq getsin."
+  "🏃 Tez gəl e! Claude əlində iş, qapıda gözləyir."
 )
 
 FUNNY_STOP_TR=(
@@ -188,6 +205,11 @@ FUNNY_NOTIF_TR=(
   "🚪 Kapıyı çalan Claude. Seninle işi var."
   "☕ Claude mola verdi — sen gelene kadar çayını içebilirsin."
   "🧠 Claude düşündü taşındı, sonunda sana sormaya karar verdi."
+  "🫵 Bütün ekip seni bekliyor. Ekip: Claude."
+  "🥺 Claude utana utana soruyor: bunu yapabilir miyim?"
+  "⛔ İş durdu. Sebep: sen yoksun."
+  "🖊️ Patron, bir imza at da işimize bakalım."
+  "🏃 Çabuk gel! Claude elinde işle kapıda bekliyor."
 )
 
 FUNNY_STOP_RU=(
@@ -223,6 +245,11 @@ FUNNY_NOTIF_RU=(
   "🚪 Это стучит Claude. У него к тебе дело."
   "☕ Claude взял паузу — успеешь допить чай, пока он ждёт."
   "🧠 Claude долго думал и решил спросить у тебя."
+  "🫵 Вся команда ждёт тебя. Команда — это Claude."
+  "🥺 Claude робко спрашивает: можно я это сделаю?"
+  "⛔ Работа встала. Причина: тебя нет."
+  "🖊️ Шеф, одна подпись — и работаем дальше."
+  "🏃 Беги скорее! Claude стоит у двери с работой в руках."
 )
 
 FUNNY_STOP_ZH=(
@@ -258,6 +285,11 @@ FUNNY_NOTIF_ZH=(
   "🚪 敲门的是 Claude。它找你有事。"
   "☕ Claude 暂停了——趁它等着，你可以喝口茶。"
   "🧠 Claude 想了又想，最后决定还是问你。"
+  "🫵 全队都在等你。全队就是 Claude。"
+  "🥺 Claude 不好意思地问：我可以做这个吗？"
+  "⛔ 工作停了。原因：你不在。"
+  "🖊️ 老板，签个字，我们继续干活。"
+  "🏃 快来！Claude 拿着活儿在门口等你。"
 )
 
 FUNNY_STOP_ES=(
@@ -293,6 +325,11 @@ FUNNY_NOTIF_ES=(
   "🚪 El que toca la puerta es Claude. Tiene un asunto contigo."
   "☕ Claude hizo una pausa — te da tiempo de terminar tu café."
   "🧠 Claude lo pensó mucho y decidió preguntarte a ti."
+  "🫵 Todo el equipo te espera. El equipo es Claude."
+  "🥺 Claude pregunta tímidamente: ¿puedo hacer esto?"
+  "⛔ El trabajo se detuvo. Motivo: no estás."
+  "🖊️ Jefe, una firma y seguimos trabajando."
+  "🏃 ¡Ven rápido! Claude está en la puerta con el trabajo en las manos."
 )
 
 FUNNY_STOP_DE=(
@@ -328,6 +365,11 @@ FUNNY_NOTIF_DE=(
   "🚪 Es klopft — Claude ist da. Es hat ein Anliegen."
   "☕ Claude macht Pause — dein Kaffee schafft es noch, bevor es ungeduldig wird."
   "🧠 Claude hat lange nachgedacht und beschlossen, dich zu fragen."
+  "🫵 Das ganze Team wartet auf dich. Das Team ist Claude."
+  "🥺 Claude fragt schüchtern: Darf ich das machen?"
+  "⛔ Arbeit gestoppt. Grund: Du bist nicht da."
+  "🖊️ Chef, eine Unterschrift und wir machen weiter."
+  "🏃 Komm schnell! Claude steht mit der Arbeit in der Hand vor der Tür."
 )
 
 FUNNY_STOP_FR=(
@@ -363,6 +405,11 @@ FUNNY_NOTIF_FR=(
   "🚪 On frappe à la porte — c'est Claude. Il a une affaire pour toi."
   "☕ Claude fait une pause — tu as le temps de finir ton café."
   "🧠 Claude a longuement réfléchi et a décidé de te demander."
+  "🫵 Toute l'équipe t'attend. L'équipe, c'est Claude."
+  "🥺 Claude demande timidement : je peux faire ça ?"
+  "⛔ Travail à l'arrêt. Cause : tu n'es pas là."
+  "🖊️ Chef, une signature et on reprend le travail."
+  "🏃 Viens vite ! Claude attend à la porte, le travail à la main."
 )
 
 # Language-specific labels and plain headlines

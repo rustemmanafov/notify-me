@@ -32,7 +32,7 @@ By default, every notification comes with a **random funny headline** — becaus
 > Project: my-app
 > Time: 2026-08-28 16:47:03
 
-There are 15 different headlines per event, picked at random each time. If you prefer boring notifications, set:
+There are 20+ different headlines per event (34 for Azerbaijani), picked at random each time. If you prefer boring notifications, set:
 
 ```bash
 export NOTIFY_STYLE="plain"
@@ -59,7 +59,7 @@ Notifications are available in 8 languages, selected via `NOTIFY_LANG`:
 export NOTIFY_LANG="az"
 ```
 
-The labels (Project/Time) and plain-style headlines are translated too. Each language has its own set of 15+ casual, friendly headlines per event — not literal translations, but jokes that actually work in that language. The Azerbaijani set comes with bonus lines inspired by local viral memes. 🇦🇿
+The labels (Project/Time) and plain-style headlines are translated too. Each language has its own set of 20+ casual, friendly headlines per event — not literal translations, but jokes that actually work in that language. The Azerbaijani set comes with bonus lines inspired by local viral memes. 🇦🇿
 
 ## Telegram stickers
 
