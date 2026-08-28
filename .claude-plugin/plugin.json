@@ -1,0 +1,12 @@
+{
+  "name": "notify-me",
+  "version": "1.0.0",
+  "description": "Claude Code tapşırığı bitirəndə və ya sizin cavabınızı gözləyəndə Telegram, Discord, Slack və ya WhatsApp vasitəsilə bildiriş göndərir.",
+  "author": {
+    "name": "rustemmanafov",
+    "url": "https://github.com/rustemmanafov"
+  },
+  "repository": "https://github.com/rustemmanafov/notify-me",
+  "license": "MIT",
+  "keywords": ["notifications", "telegram", "discord", "slack", "whatsapp", "hooks"]
+}
