@@ -114,14 +114,22 @@ echo "  1) English (default)"
 echo "  2) Azərbaycanca"
 echo "  3) Türkçe"
 echo "  4) Русский"
+echo "  5) 中文"
+echo "  6) Español"
+echo "  7) Deutsch"
+echo "  8) Français"
 echo ""
-printf "Your choice (1-4) [1]: "
+printf "Your choice (1-8) [1]: "
 read -r LANG_CHOICE
 
 case "$LANG_CHOICE" in
   2) MSG_LANG="az" ;;
   3) MSG_LANG="tr" ;;
   4) MSG_LANG="ru" ;;
+  5) MSG_LANG="zh" ;;
+  6) MSG_LANG="es" ;;
+  7) MSG_LANG="de" ;;
+  8) MSG_LANG="fr" ;;
   *) MSG_LANG="en" ;;
 esac
 

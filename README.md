@@ -32,7 +32,7 @@ By default, every notification comes with a **random funny headline** — becaus
 > Project: my-app
 > Time: 2026-08-28 16:47:03
 
-There are 10 different headlines per event, picked at random each time. If you prefer boring notifications, set:
+There are 15 different headlines per event, picked at random each time. If you prefer boring notifications, set:
 
 ```bash
 export NOTIFY_STYLE="plain"
@@ -42,20 +42,24 @@ and you'll get the professional versions instead ("✅ Claude Code finished a ta
 
 ## Languages
 
-Notifications are available in 4 languages, selected via `NOTIFY_LANG`:
+Notifications are available in 8 languages, selected via `NOTIFY_LANG`:
 
 | Value | Language | Example |
 |---|---|---|
-| `en` (default) | English | 🥷 Task silently eliminated. No witnesses. |
-| `az` | Azərbaycanca | 🫡 Əmr yerinə yetirildi, komandir! |
-| `tr` | Türkçe | ☕ Kahven soğumadan iş bitti. Rica ederim. |
-| `ru` | Русский | 🥷 Задача тихо устранена. Свидетелей нет. |
+| `en` (default) | English | 😎 Done! Go tell everyone you did it yourself. |
+| `az` | Azərbaycanca | 😎 Bitdi! Get denən özüm elədim. |
+| `tr` | Türkçe | 😎 Bitti! Git 'ben yaptım' de, kimse anlamaz. |
+| `ru` | Русский | 😎 Готово! Иди скажи всем, что сам сделал. |
+| `zh` | 中文 | 😎 搞定了！去跟别人说是你自己干的吧。 |
+| `es` | Español | 😎 ¡Listo! Ve y di que lo hiciste tú. |
+| `de` | Deutsch | 😎 Fertig! Geh ruhig sagen, dass du es selbst warst. |
+| `fr` | Français | 😎 Terminé ! Va dire que c'est toi qui l'as fait. |
 
 ```bash
 export NOTIFY_LANG="az"
 ```
 
-The labels (Project/Time) and plain-style headlines are translated too. Each language has its own set of 10 funny headlines per event — not literal translations, but jokes that actually work in that language.
+The labels (Project/Time) and plain-style headlines are translated too. Each language has its own set of 15 casual, friendly headlines per event — not literal translations, but jokes that actually work in that language.
 
 ## Installation
 
@@ -146,7 +150,7 @@ export NOTIFY_PLATFORM="telegram"
 # Message style: funny (default) | plain
 export NOTIFY_STYLE="funny"
 
-# Message language: en (default) | az | tr | ru
+# Message language: en (default) | az | tr | ru | zh | es | de | fr
 export NOTIFY_LANG="en"
 
 # Telegram

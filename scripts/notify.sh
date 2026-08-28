@@ -6,7 +6,7 @@
 # platform selected via the NOTIFY_PLATFORM environment variable.
 #
 # NOTIFY_STYLE: funny (default) | plain
-# NOTIFY_LANG:  en (default) | az | tr | ru
+# NOTIFY_LANG:  en (default) | az | tr | ru | zh | es | de | fr
 #
 # This script NEVER returns a non-zero exit code, so it can never
 # block a Claude Code session.
@@ -48,19 +48,25 @@ LANG_CODE="${NOTIFY_LANG:-en}"
 
 # ---------------------------------------------------------------------------
 # Funny headlines — one is picked at random for each notification.
+# Casual, friendly tone in every language. 15 per event per language.
 # ---------------------------------------------------------------------------
 
 FUNNY_STOP_EN=(
+  "😎 Done! Go tell everyone you did it yourself."
   "🍕 Done! Claude finished while you were 'testing' that pizza."
-  "🎉 Task complete. Claude did in minutes what you'd postpone till Friday."
+  "🎉 Task complete. Claude did the work, you take the credit."
   "🤖 Beep boop. Work's done. Praise the robot."
-  "😴 Claude finished. You may now pretend you did it."
-  "🏆 Done! Claude would like this mentioned in your next standup."
+  "🏆 Claude finished and is now waiting for compliments."
   "🥷 Task silently eliminated. No witnesses."
-  "🫡 Mission complete, commander. Claude awaits new orders."
+  "🫡 Mission complete, commander!"
   "☕ Done before your coffee got cold. You're welcome."
   "🧘 Task finished. Claude is meditating until the next one."
-  "🚀 Task complete. Claude accepts payment in GPU time."
+  "🚀 Done! Claude already misses the next task."
+  "💪 Done. You didn't even lift a finger. Respect."
+  "😏 Finished. Even your boss would be impressed by this speed."
+  "🎁 Delivery! One freshly completed task."
+  "🛋️ You relaxed, Claude worked. It's done."
+  "🔥 Nailed it! Turns out we make a great team."
 )
 FUNNY_NOTIF_EN=(
   "🚨 Human needed! Claude promises it's (probably) not broken."
@@ -72,70 +78,100 @@ FUNNY_NOTIF_EN=(
   "🆘 Claude needs permission. With great power comes great clicking."
   "🧍 Claude is standing at the door with a question."
   "🎮 Player 1, your turn. Claude passed the controller."
-  "📢 Attention human: your robot requires supervision."
+  "📢 Hey! Your robot wants your attention."
+  "🤙 Claude says: got a minute? Quick question."
+  "😅 Claude is stuck and refuses to move without you."
+  "🚪 That knocking? It's Claude. It has business with you."
+  "☕ Claude took a break — you have time for a sip before it gets impatient."
+  "🧠 Claude thought long and hard and decided to ask you."
 )
 
 FUNNY_STOP_AZ=(
-  "🍕 Hazırdır! Sən çay içənə kimi Claude işi bitirdi."
-  "🎉 Tapşırıq bitdi. Zəhmət Claude-un, kredit sənin."
-  "🤖 Bip-bop. İş hazırdır. Robota bir təşəkkür düşür."
-  "😎 Bitdi! Gedib deyə bilərsən ki, özün elədin."
-  "🏆 Claude işi bitirdi və indi tərif gözləyir."
-  "🥷 Tapşırıq səssizcə yox edildi. Şahid yoxdur."
-  "🫡 Əmr yerinə yetirildi, komandir!"
-  "☕ Çayın soyumamış iş bitdi. Buyur."
-  "🧘 İş bitdi. Claude növbəti tapşırığa qədər meditasiyadadır."
-  "🚀 Hazırdır! Claude növbəti tapşırıq üçün darıxır."
+  "😎 Bitdi! Get denən özüm elədim."
+  "🍕 Hazırdı! Sən çay içənəcən Claude işi bitirdi."
+  "🎉 İş bitdi. Zəhmət Claude-dan, şöhrət səndən."
+  "🤖 Bip-bop. İş hazırdı. Robota bir sağol de."
+  "🏆 Claude işi bitirdi, indi oturub tərif gözləyir."
+  "🥷 Tapşırıq səssizcə həll olundu. Şahid yoxdu."
+  "🫡 Komandir, əmr yerinə yetirildi!"
+  "☕ Çayın soyumamış iş hazırdı. Buyur."
+  "🧘 İş bitdi. Claude növbəti tapşırığacan meditasiyadadı."
+  "🚀 Hazırdı! Claude artıq növbəti işçün darıxır."
+  "💪 İş bitdi. Sən heç əlini də tərpətmədin, afərin."
+  "😏 Bitdi getdi. Bu sürətə şef də mat qalar."
+  "🎁 Al gəldi — təzəcə bitmiş bir tapşırıq."
+  "🛋️ Sən uzanmışdın, Claude işləyirdi. İş hazırdı."
+  "🔥 Bitirdik! Sən demə yaxşı komandayıq."
 )
 FUNNY_NOTIF_AZ=(
-  "🚨 İnsan lazımdır! Claude söz verir ki, (yəqin) heç nə xarab olmayıb."
-  "🖐️ Claude-a böyük adam lazımdır. O böyük adam sənsən."
-  "⏳ Claude gözləyir... və o heç vaxt gözünü qırpmır."
-  "🙏 Bir kliklə Claude-un könlünü ala bilərsən."
-  "🔔 Ding-dong. Claude-dur. Sualları var."
-  "👀 Claude maraqlı bir şey tapıb. Gəl bax, özbaşına iş görməsin."
-  "🆘 Claude icazə gözləyir. Böyük güc böyük klik tələb edir."
-  "🧍 Claude qapıda sualla dayanıb."
-  "🎮 Növbə səndədir. Claude pultu sənə ötürdü."
-  "📢 Diqqət! Robotunuz nəzarət tələb edir."
+  "🚨 Adam lazımdı! Claude deyir (yəqin ki) heç nə xarab olmayıb."
+  "🖐️ Claude-a böyük adam lazımdı. O böyük adam sənsən."
+  "⏳ Claude gözləyir... özü də heç gözünü qırpmır."
+  "🙏 Bir klik elə, Claude-un könlü açılsın."
+  "🔔 Ding-dong. Claude-du. Sualları var."
+  "👀 Claude nəsə maraqlı şey tapıb. Gəl bax, özbaşına iş görməsin."
+  "🆘 Claude icazə gözləyir. Böyük güc böyük klik istəyir."
+  "🧍 Claude qapıda sualla dayanıb, gözləyir."
+  "🎮 Növbə səndədi. Claude pultu sənə ötürdü."
+  "📢 Ayə, bir bura bax! Robotun səni istəyir."
+  "🤙 Claude deyir: bir dəqiqəlik gəl, iki kəlmə sözüm var."
+  "😅 Claude ilişib qalıb, sənsiz tərpənmir."
+  "🚪 Qapını döyən Claude-du. Aç, işi var."
+  "☕ Claude fasilə verdi — sən gələnəcən çayını içə bilərsən."
+  "🧠 Claude düşünüb-düşünüb axırda səndən soruşmaq qərarına gəlib."
 )
 
 FUNNY_STOP_TR=(
+  "😎 Bitti! Git 'ben yaptım' de, kimse anlamaz."
   "🍕 Bitti! Sen çayını yudumlarken Claude işi bitirdi."
-  "🎉 Görev tamamlandı. Emek Claude'un, övgü senin."
-  "🤖 Bip bop. İş hazır. Robota bir teşekkür borçlusun."
-  "😎 Bitti! Gidip 'ben yaptım' diyebilirsin."
-  "🏆 Claude işi bitirdi, şimdi iltifat bekliyor."
+  "🎉 Görev tamam. Emek Claude'un, övgü senin."
+  "🤖 Bip bop. İş hazır. Robota bir teşekkür et."
+  "🏆 Claude işi bitirdi, şimdi oturmuş iltifat bekliyor."
   "🥷 Görev sessizce halledildi. Tanık yok."
-  "🫡 Emir yerine getirildi, komutanım!"
+  "🫡 Komutanım, emir yerine getirildi!"
   "☕ Kahven soğumadan iş bitti. Rica ederim."
   "🧘 İş bitti. Claude bir sonraki göreve kadar meditasyonda."
-  "🚀 Hazır! Claude yeni görev için sabırsızlanıyor."
+  "🚀 Hazır! Claude yeni görevi özlemeye başladı bile."
+  "💪 Bitti. Parmağını bile kıpırdatmadın, helal olsun."
+  "😏 Bitti gitti. Bu hıza patron bile şaşırır."
+  "🎁 Teslimat! Taze bitmiş bir görev."
+  "🛋️ Sen uzandın, Claude çalıştı. İş hazır."
+  "🔥 Bitirdik! Meğer iyi bir ekipmişiz."
 )
 FUNNY_NOTIF_TR=(
   "🚨 İnsan lazım! Claude (muhtemelen) hiçbir şeyin bozulmadığına söz veriyor."
   "🖐️ Claude'un bir yetişkine ihtiyacı var. O yetişkin sensin."
   "⏳ Claude bekliyor... ve asla göz kırpmıyor."
-  "🙏 Tek tıkla Claude'un gönlünü alabilirsin."
+  "🙏 Bir tık at, Claude'un gönlü olsun."
   "🔔 Ding dong. Claude geldi. Soruları var."
   "👀 Claude ilginç bir şey buldu. Kendi başına iş yapmadan gel bak."
   "🆘 Claude izin bekliyor. Büyük güç, büyük tık gerektirir."
   "🧍 Claude kapıda bir soruyla bekliyor."
   "🎮 Sıra sende. Claude kumandayı sana verdi."
-  "📢 Dikkat! Robotunuz denetim istiyor."
+  "📢 Baksana! Robotun seni istiyor."
+  "🤙 Claude diyor ki: bir dakikan var mı? Ufak bir soru."
+  "😅 Claude takıldı kaldı, sensiz kımıldamıyor."
+  "🚪 Kapıyı çalan Claude. Seninle işi var."
+  "☕ Claude mola verdi — sen gelene kadar çayını içebilirsin."
+  "🧠 Claude düşündü taşındı, sonunda sana sormaya karar verdi."
 )
 
 FUNNY_STOP_RU=(
+  "😎 Готово! Иди скажи всем, что сам сделал."
   "🍕 Готово! Пока ты пил чай, Claude всё доделал."
   "🎉 Задача выполнена. Работал Claude, лавры твои."
-  "🤖 Бип-боп. Работа готова. Роботу полагается похвала."
-  "😎 Готово! Можешь сказать, что сделал сам."
-  "🏆 Claude закончил и ждёт комплиментов."
+  "🤖 Бип-боп. Работа готова. Похвали робота."
+  "🏆 Claude закончил и сидит ждёт комплиментов."
   "🥷 Задача тихо устранена. Свидетелей нет."
-  "🫡 Приказ выполнен, командир!"
-  "☕ Работа закончена, пока кофе не остыл. Пожалуйста."
+  "🫡 Командир, приказ выполнен!"
+  "☕ Готово, пока кофе не остыл. Пожалуйста."
   "🧘 Всё готово. Claude медитирует до следующей задачи."
   "🚀 Готово! Claude уже скучает по следующей задаче."
+  "💪 Готово. Ты даже пальцем не пошевелил. Уважение."
+  "😏 Готово. Такой скорости позавидовал бы даже твой начальник."
+  "🎁 Доставка! Одна свежевыполненная задача."
+  "🛋️ Ты отдыхал, Claude работал. Всё готово."
+  "🔥 Справились! Оказывается, мы отличная команда."
 )
 FUNNY_NOTIF_RU=(
   "🚨 Нужен человек! Claude обещает, что (наверное) ничего не сломано."
@@ -147,7 +183,152 @@ FUNNY_NOTIF_RU=(
   "🆘 Claude ждёт разрешения. Большая сила требует большого клика."
   "🧍 Claude стоит у двери с вопросом."
   "🎮 Твой ход. Claude передал тебе геймпад."
-  "📢 Внимание! Ваш робот требует присмотра."
+  "📢 Эй! Твой робот хочет внимания."
+  "🤙 Claude спрашивает: есть минутка? Короткий вопрос."
+  "😅 Claude застрял и без тебя не двигается."
+  "🚪 Это стучит Claude. У него к тебе дело."
+  "☕ Claude взял паузу — успеешь допить чай, пока он ждёт."
+  "🧠 Claude долго думал и решил спросить у тебя."
+)
+
+FUNNY_STOP_ZH=(
+  "😎 搞定了！去跟别人说是你自己干的吧。"
+  "🍕 搞定！你还在摸鱼，Claude 已经把活干完了。"
+  "🎉 任务完成。功劳归你，辛苦归 Claude。"
+  "🤖 哔卟哔卟。工作完成，请表扬机器人。"
+  "🏆 Claude 干完了，正坐着等夸奖。"
+  "🥷 任务已悄悄解决。没有目击者。"
+  "🫡 报告指挥官，任务完成！"
+  "☕ 咖啡还没凉，活就干完了。不客气。"
+  "🧘 任务完成。Claude 正在打坐，等待下一个任务。"
+  "🚀 完成！Claude 已经开始想念下一个任务了。"
+  "💪 搞定。你连手指都没动一下，佩服。"
+  "😏 干完了。这速度连老板都得佩服。"
+  "🎁 外卖到了！一份新鲜出炉的完成任务。"
+  "🛋️ 你躺着，Claude 干活。任务完成了。"
+  "🔥 搞定！原来我们是个好团队。"
+)
+FUNNY_NOTIF_ZH=(
+  "🚨 需要人类支援！Claude 保证（大概）没搞坏什么。"
+  "🖐️ Claude 需要一个大人。那个大人就是你。"
+  "⏳ Claude 在等你……而且它从不眨眼。"
+  "🙏 你点一下，Claude 就不闹脾气了。"
+  "🔔 叮咚。是 Claude，它带着问题来了。"
+  "👀 Claude 发现了有趣的东西。快来看看，别让它自作主张。"
+  "🆘 Claude 在等你的批准。能力越大，点击越大。"
+  "🧍 Claude 拿着问题站在门口。"
+  "🎮 该你了，玩家一号。Claude 把手柄递给了你。"
+  "📢 喂！你的机器人想找你。"
+  "🤙 Claude 问：有一分钟吗？小问题。"
+  "😅 Claude 卡住了，没有你它动不了。"
+  "🚪 敲门的是 Claude。它找你有事。"
+  "☕ Claude 暂停了——趁它等着，你可以喝口茶。"
+  "🧠 Claude 想了又想，最后决定还是问你。"
+)
+
+FUNNY_STOP_ES=(
+  "😎 ¡Listo! Ve y di que lo hiciste tú."
+  "🍕 ¡Listo! Claude terminó mientras tú 'probabas' esa pizza."
+  "🎉 Tarea completada. El trabajo fue de Claude, el mérito es tuyo."
+  "🤖 Bip bop. Trabajo terminado. Elogia al robot."
+  "🏆 Claude terminó y está sentado esperando cumplidos."
+  "🥷 Tarea eliminada en silencio. Sin testigos."
+  "🫡 ¡Misión cumplida, comandante!"
+  "☕ Terminado antes de que se enfriara tu café. De nada."
+  "🧘 Tarea terminada. Claude medita hasta la próxima."
+  "🚀 ¡Listo! Claude ya extraña la siguiente tarea."
+  "💪 Hecho. No moviste ni un dedo. Respeto."
+  "😏 Terminado. Hasta tu jefe envidiaría esta velocidad."
+  "🎁 ¡Entrega! Una tarea recién terminada."
+  "🛋️ Tú descansabas, Claude trabajaba. Ya está listo."
+  "🔥 ¡Lo logramos! Resulta que somos un gran equipo."
+)
+FUNNY_NOTIF_ES=(
+  "🚨 ¡Se necesita un humano! Claude promete que (probablemente) nada está roto."
+  "🖐️ Claude necesita un adulto. Ese adulto eres tú."
+  "⏳ Claude está esperando... y nunca parpadea."
+  "🙏 Un clic tuyo y Claude dejará de estar triste."
+  "🔔 Ding dong. Es Claude. Trae preguntas."
+  "👀 Claude encontró algo interesante. Ven antes de que actúe por su cuenta."
+  "🆘 Claude espera tu permiso. Un gran poder conlleva un gran clic."
+  "🧍 Claude está en la puerta con una pregunta."
+  "🎮 Tu turno, jugador 1. Claude te pasó el control."
+  "📢 ¡Oye! Tu robot quiere tu atención."
+  "🤙 Claude pregunta: ¿tienes un minuto? Pregunta rápida."
+  "😅 Claude se atascó y no se mueve sin ti."
+  "🚪 El que toca la puerta es Claude. Tiene un asunto contigo."
+  "☕ Claude hizo una pausa — te da tiempo de terminar tu café."
+  "🧠 Claude lo pensó mucho y decidió preguntarte a ti."
+)
+
+FUNNY_STOP_DE=(
+  "😎 Fertig! Geh ruhig sagen, dass du es selbst warst."
+  "🍕 Fertig! Claude war schneller als deine Kaffeepause."
+  "🎉 Aufgabe erledigt. Claude hat gearbeitet, du bekommst das Lob."
+  "🤖 Piep bop. Arbeit erledigt. Lob den Roboter."
+  "🏆 Claude ist fertig und sitzt da und wartet auf Komplimente."
+  "🥷 Aufgabe lautlos erledigt. Keine Zeugen."
+  "🫡 Mission erfüllt, Kommandant!"
+  "☕ Fertig, bevor dein Kaffee kalt wurde. Gern geschehen."
+  "🧘 Aufgabe erledigt. Claude meditiert bis zur nächsten."
+  "🚀 Fertig! Claude vermisst die nächste Aufgabe jetzt schon."
+  "💪 Fertig. Du hast keinen Finger gerührt. Respekt."
+  "😏 Erledigt. Bei dem Tempo würde selbst dein Chef staunen."
+  "🎁 Lieferung! Eine frisch erledigte Aufgabe."
+  "🛋️ Du hast entspannt, Claude hat gearbeitet. Fertig."
+  "🔥 Geschafft! Wir sind wohl doch ein gutes Team."
+)
+FUNNY_NOTIF_DE=(
+  "🚨 Mensch benötigt! Claude verspricht: (wahrscheinlich) ist nichts kaputt."
+  "🖐️ Claude braucht einen Erwachsenen. Der Erwachsene bist du."
+  "⏳ Claude wartet... und es blinzelt nie."
+  "🙏 Ein Klick von dir und Claude hört auf zu schmollen."
+  "🔔 Ding dong. Claude ist da. Mit Fragen."
+  "👀 Claude hat etwas Interessantes gefunden. Komm, bevor es eigenmächtig handelt."
+  "🆘 Claude wartet auf deine Erlaubnis. Mit großer Macht kommt großes Klicken."
+  "🧍 Claude steht mit einer Frage vor der Tür."
+  "🎮 Du bist dran, Spieler 1. Claude hat dir den Controller gegeben."
+  "📢 Hey! Dein Roboter will deine Aufmerksamkeit."
+  "🤙 Claude fragt: Hast du kurz Zeit? Kleine Frage."
+  "😅 Claude hängt fest und bewegt sich ohne dich nicht."
+  "🚪 Es klopft — Claude ist da. Es hat ein Anliegen."
+  "☕ Claude macht Pause — dein Kaffee schafft es noch, bevor es ungeduldig wird."
+  "🧠 Claude hat lange nachgedacht und beschlossen, dich zu fragen."
+)
+
+FUNNY_STOP_FR=(
+  "😎 Terminé ! Va dire que c'est toi qui l'as fait."
+  "🍕 Terminé ! Claude a fini pendant que tu 'goûtais' cette pizza."
+  "🎉 Tâche accomplie. Le travail pour Claude, le mérite pour toi."
+  "🤖 Bip bop. Travail terminé. Félicite le robot."
+  "🏆 Claude a terminé et attend des compliments."
+  "🥷 Tâche éliminée en silence. Aucun témoin."
+  "🫡 Mission accomplie, commandant !"
+  "☕ Fini avant que ton café ne refroidisse. De rien."
+  "🧘 Tâche terminée. Claude médite jusqu'à la prochaine."
+  "🚀 Terminé ! La prochaine tâche manque déjà à Claude."
+  "💪 Fini. Tu n'as pas levé le petit doigt. Respect."
+  "😏 Terminé. Même ton chef serait jaloux de cette vitesse."
+  "🎁 Livraison ! Une tâche fraîchement terminée."
+  "🛋️ Tu te reposais, Claude travaillait. C'est fait."
+  "🔥 On a réussi ! Finalement, on fait une super équipe."
+)
+FUNNY_NOTIF_FR=(
+  "🚨 Humain requis ! Claude promet que (probablement) rien n'est cassé."
+  "🖐️ Claude a besoin d'un adulte. Cet adulte, c'est toi."
+  "⏳ Claude attend... et il ne cligne jamais des yeux."
+  "🙏 Un clic de toi et Claude arrête de bouder."
+  "🔔 Ding dong. C'est Claude. Il a des questions."
+  "👀 Claude a trouvé quelque chose d'intéressant. Viens voir avant qu'il n'agisse seul."
+  "🆘 Claude attend ta permission. Un grand pouvoir implique un grand clic."
+  "🧍 Claude est à la porte avec une question."
+  "🎮 À toi, joueur 1. Claude t'a passé la manette."
+  "📢 Hé ! Ton robot veut ton attention."
+  "🤙 Claude demande : t'as une minute ? Petite question."
+  "😅 Claude est bloqué et refuse d'avancer sans toi."
+  "🚪 On frappe à la porte — c'est Claude. Il a une affaire pour toi."
+  "☕ Claude fait une pause — tu as le temps de finir ton café."
+  "🧠 Claude a longuement réfléchi et a décidé de te demander."
 )
 
 # Language-specific labels and plain headlines
@@ -169,6 +350,30 @@ case "$LANG_CODE" in
     PLAIN_STOP="✅ Claude Code завершил задачу"
     PLAIN_NOTIF="🔔 Claude Code ждёт вашего ответа"
     L_PROJECT="Проект"; L_TIME="Время"; L_MESSAGE="Сообщение"
+    ;;
+  zh)
+    STOP_HEADS=("${FUNNY_STOP_ZH[@]}");  NOTIF_HEADS=("${FUNNY_NOTIF_ZH[@]}")
+    PLAIN_STOP="✅ Claude Code 完成了任务"
+    PLAIN_NOTIF="🔔 Claude Code 正在等待你的输入"
+    L_PROJECT="项目"; L_TIME="时间"; L_MESSAGE="消息"
+    ;;
+  es)
+    STOP_HEADS=("${FUNNY_STOP_ES[@]}");  NOTIF_HEADS=("${FUNNY_NOTIF_ES[@]}")
+    PLAIN_STOP="✅ Claude Code terminó una tarea"
+    PLAIN_NOTIF="🔔 Claude Code espera tu respuesta"
+    L_PROJECT="Proyecto"; L_TIME="Hora"; L_MESSAGE="Mensaje"
+    ;;
+  de)
+    STOP_HEADS=("${FUNNY_STOP_DE[@]}");  NOTIF_HEADS=("${FUNNY_NOTIF_DE[@]}")
+    PLAIN_STOP="✅ Claude Code hat eine Aufgabe erledigt"
+    PLAIN_NOTIF="🔔 Claude Code wartet auf deine Eingabe"
+    L_PROJECT="Projekt"; L_TIME="Zeit"; L_MESSAGE="Nachricht"
+    ;;
+  fr)
+    STOP_HEADS=("${FUNNY_STOP_FR[@]}");  NOTIF_HEADS=("${FUNNY_NOTIF_FR[@]}")
+    PLAIN_STOP="✅ Claude Code a terminé une tâche"
+    PLAIN_NOTIF="🔔 Claude Code attend ta réponse"
+    L_PROJECT="Projet"; L_TIME="Heure"; L_MESSAGE="Message"
     ;;
   *)
     STOP_HEADS=("${FUNNY_STOP_EN[@]}");  NOTIF_HEADS=("${FUNNY_NOTIF_EN[@]}")
