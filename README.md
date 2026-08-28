@@ -61,6 +61,22 @@ export NOTIFY_LANG="az"
 
 The labels (Project/Time) and plain-style headlines are translated too. Each language has its own set of 15+ casual, friendly headlines per event — not literal translations, but jokes that actually work in that language. The Azerbaijani set comes with bonus lines inspired by local viral memes. 🇦🇿
 
+## Telegram stickers (optional)
+
+On Telegram, the plugin can send a **random sticker** right after each notification — Hasbulla, cats, whatever you like. 😄
+
+1. In Telegram, send (or forward) your favorite stickers to **your bot's chat**.
+2. Run the helper script — it lists their `file_id`s:
+   ```bash
+   bash scripts/get-sticker-ids.sh
+   ```
+3. Add the ones you like to your shell config, comma-separated:
+   ```bash
+   export NOTIFY_STICKERS="CAACAgIAAxkBAAE...,CAACAgIAAxkBAAF..."
+   ```
+
+Leave `NOTIFY_STICKERS` unset to disable stickers. Note: `file_id`s are bot-specific — they must be obtained through your own bot (that's what the helper script does). Stickers work on Telegram only.
+
 ## Installation
 
 ### 1. Add the marketplace

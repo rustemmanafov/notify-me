@@ -446,6 +446,23 @@ case "$NOTIFY_PLATFORM" in
         --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
         --data-urlencode "text=${MESSAGE}" \
         >/dev/null 2>&1 || true
+
+      # Optional: send a random sticker after the text (Telegram only).
+      # NOTIFY_STICKERS is a comma-separated list of sticker file_ids
+      # obtained via your own bot (see scripts/get-sticker-ids.sh).
+      if [ -n "${NOTIFY_STICKERS:-}" ]; then
+        IFS=',' read -r -a STICKER_ARR <<< "$NOTIFY_STICKERS"
+        if [ "${#STICKER_ARR[@]}" -gt 0 ]; then
+          STICKER=$(printf '%s' "${STICKER_ARR[$((RANDOM % ${#STICKER_ARR[@]}))]}" | tr -d ' ')
+          if [ -n "$STICKER" ]; then
+            curl -s --max-time 10 \
+              -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendSticker" \
+              --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+              --data-urlencode "sticker=${STICKER}" \
+              >/dev/null 2>&1 || true
+          fi
+        fi
+      fi
     fi
     ;;
 
