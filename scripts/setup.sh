@@ -109,10 +109,28 @@ else
 fi
 
 echo ""
+echo "Message language:"
+echo "  1) English (default)"
+echo "  2) Azərbaycanca"
+echo "  3) Türkçe"
+echo "  4) Русский"
+echo ""
+printf "Your choice (1-4) [1]: "
+read -r LANG_CHOICE
+
+case "$LANG_CHOICE" in
+  2) MSG_LANG="az" ;;
+  3) MSG_LANG="tr" ;;
+  4) MSG_LANG="ru" ;;
+  *) MSG_LANG="en" ;;
+esac
+
+echo ""
 echo "The following lines will be appended to $RC_FILE:"
 echo "--------------------------------------"
 echo "export NOTIFY_PLATFORM=\"$PLATFORM\""
 echo "export NOTIFY_STYLE=\"$MSG_STYLE\""
+echo "export NOTIFY_LANG=\"$MSG_LANG\""
 echo "$EXPORTS"
 echo "--------------------------------------"
 printf "Continue? (y/n): "
@@ -128,6 +146,7 @@ fi
   echo "# notify-me plugin ($(date '+%Y-%m-%d %H:%M:%S'))"
   echo "export NOTIFY_PLATFORM=\"$PLATFORM\""
   echo "export NOTIFY_STYLE=\"$MSG_STYLE\""
+  echo "export NOTIFY_LANG=\"$MSG_LANG\""
   echo "$EXPORTS"
 } >> "$RC_FILE"
 

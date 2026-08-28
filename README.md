@@ -40,6 +40,23 @@ export NOTIFY_STYLE="plain"
 
 and you'll get the professional versions instead ("✅ Claude Code finished a task" / "🔔 Claude Code is waiting for your input"). The project name and timestamp are always included either way.
 
+## Languages
+
+Notifications are available in 4 languages, selected via `NOTIFY_LANG`:
+
+| Value | Language | Example |
+|---|---|---|
+| `en` (default) | English | 🥷 Task silently eliminated. No witnesses. |
+| `az` | Azərbaycanca | 🫡 Əmr yerinə yetirildi, komandir! |
+| `tr` | Türkçe | ☕ Kahven soğumadan iş bitti. Rica ederim. |
+| `ru` | Русский | 🥷 Задача тихо устранена. Свидетелей нет. |
+
+```bash
+export NOTIFY_LANG="az"
+```
+
+The labels (Project/Time) and plain-style headlines are translated too. Each language has its own set of 10 funny headlines per event — not literal translations, but jokes that actually work in that language.
+
 ## Installation
 
 ### 1. Add the marketplace
@@ -128,6 +145,9 @@ export NOTIFY_PLATFORM="telegram"
 
 # Message style: funny (default) | plain
 export NOTIFY_STYLE="funny"
+
+# Message language: en (default) | az | tr | ru
+export NOTIFY_LANG="en"
 
 # Telegram
 export TELEGRAM_BOT_TOKEN="123456789:ABCdefGhIJKlmNoPQRstuVWxyz"
