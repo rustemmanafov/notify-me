@@ -58,6 +58,15 @@ case "$CHOICE" in
     read -r CHAT_ID
     EXPORTS="export TELEGRAM_BOT_TOKEN=\"$BOT_TOKEN\"
 export TELEGRAM_CHAT_ID=\"$CHAT_ID\""
+    echo ""
+    echo "Bonus: send a random sticker after each notification? 😄"
+    echo "Enter a public sticker pack name (e.g. hasbullahasbulla2) or press Enter to skip."
+    printf "Sticker pack: "
+    read -r STICKER_SET
+    if [ -n "$STICKER_SET" ]; then
+      EXPORTS="$EXPORTS
+export NOTIFY_STICKER_SET=\"$STICKER_SET\""
+    fi
     ;;
   2)
     PLATFORM="discord"

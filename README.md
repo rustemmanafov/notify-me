@@ -63,7 +63,17 @@ The labels (Project/Time) and plain-style headlines are translated too. Each lan
 
 ## Telegram stickers (optional)
 
-On Telegram, the plugin can send a **random sticker** right after each notification — Hasbulla, cats, whatever you like. 😄
+On Telegram, the plugin can send a **random sticker** right after each notification — Hasbulla, cats, whatever you like. 😄 The easiest way is to point it at any public sticker pack by name:
+
+```bash
+export NOTIFY_STICKER_SET="hasbullahasbulla2"
+```
+
+That's it — your bot fetches the pack itself and sends a random sticker from it after every notification. This works for everyone out of the box.
+
+To find a pack's name: open the sticker pack in Telegram, tap share/copy link — the link looks like `https://t.me/addstickers/<pack_name>`; use the `<pack_name>` part.
+
+**Alternative: hand-picked stickers.** If you want specific stickers instead of a whole pack:
 
 1. In Telegram, send (or forward) your favorite stickers to **your bot's chat**.
 2. Run the helper script — it lists their `file_id`s:
@@ -75,7 +85,7 @@ On Telegram, the plugin can send a **random sticker** right after each notificat
    export NOTIFY_STICKERS="CAACAgIAAxkBAAE...,CAACAgIAAxkBAAF..."
    ```
 
-Leave `NOTIFY_STICKERS` unset to disable stickers. Note: `file_id`s are bot-specific — they must be obtained through your own bot (that's what the helper script does). Stickers work on Telegram only.
+`NOTIFY_STICKER_SET` takes priority when both are set; leave both unset to disable stickers. Note: `file_id`s are bot-specific (the helper script handles that), while a pack name works for any bot. Stickers work on Telegram only.
 
 ## Installation
 

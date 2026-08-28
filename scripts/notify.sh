@@ -448,20 +448,47 @@ case "$NOTIFY_PLATFORM" in
         >/dev/null 2>&1 || true
 
       # Optional: send a random sticker after the text (Telegram only).
-      # NOTIFY_STICKERS is a comma-separated list of sticker file_ids
-      # obtained via your own bot (see scripts/get-sticker-ids.sh).
-      if [ -n "${NOTIFY_STICKERS:-}" ]; then
+      # Two ways to configure, checked in this order:
+      #   NOTIFY_STICKER_SET — a public sticker pack name (e.g. "hasbullahasbulla2");
+      #                        works for everyone, no file_ids needed.
+      #   NOTIFY_STICKERS    — comma-separated sticker file_ids obtained via
+      #                        your own bot (see scripts/get-sticker-ids.sh).
+      STICKER=""
+      if [ -n "${NOTIFY_STICKER_SET:-}" ]; then
+        SET_JSON=$(curl -s --max-time 10 \
+          "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getStickerSet?name=${NOTIFY_STICKER_SET}" 2>/dev/null || true)
+        if [ -n "$SET_JSON" ]; then
+          if command -v jq >/dev/null 2>&1; then
+            SET_IDS=$(printf '%s' "$SET_JSON" | jq -r '.result.stickers[]?.file_id' 2>/dev/null)
+          elif command -v python3 >/dev/null 2>&1; then
+            SET_IDS=$(printf '%s' "$SET_JSON" | python3 -c '
+import json, sys
+try:
+    d = json.load(sys.stdin)
+    for s in d.get("result", {}).get("stickers", []):
+        print(s["file_id"])
+except Exception:
+    pass
+' 2>/dev/null)
+          else
+            SET_IDS=""
+          fi
+          if [ -n "$SET_IDS" ]; then
+            STICKER=$(printf '%s\n' "$SET_IDS" | awk -v seed="$RANDOM" 'BEGIN{srand(seed)} {a[NR]=$0} END{if(NR>0) print a[int(rand()*NR)+1]}')
+          fi
+        fi
+      elif [ -n "${NOTIFY_STICKERS:-}" ]; then
         IFS=',' read -r -a STICKER_ARR <<< "$NOTIFY_STICKERS"
         if [ "${#STICKER_ARR[@]}" -gt 0 ]; then
           STICKER=$(printf '%s' "${STICKER_ARR[$((RANDOM % ${#STICKER_ARR[@]}))]}" | tr -d ' ')
-          if [ -n "$STICKER" ]; then
-            curl -s --max-time 10 \
-              -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendSticker" \
-              --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
-              --data-urlencode "sticker=${STICKER}" \
-              >/dev/null 2>&1 || true
-          fi
         fi
+      fi
+      if [ -n "$STICKER" ]; then
+        curl -s --max-time 10 \
+          -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendSticker" \
+          --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+          --data-urlencode "sticker=${STICKER}" \
+          >/dev/null 2>&1 || true
       fi
     fi
     ;;
