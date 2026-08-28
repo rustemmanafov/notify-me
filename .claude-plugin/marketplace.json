@@ -5,14 +5,14 @@
   },
   "metadata": {
     "description": "Marketplace distributing the notify-me plugin",
-    "version": "1.10.0"
+    "version": "1.11.0"
   },
   "plugins": [
     {
       "name": "notify-me",
       "source": "./",
       "description": "Sends you a notification via Telegram, Discord, Slack, or WhatsApp when Claude Code finishes a task or is waiting for your input.",
-      "version": "1.10.0",
+      "version": "1.11.0",
       "author": {
         "name": "rustemmanafov"
       }

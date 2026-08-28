@@ -11,6 +11,27 @@
 # This script NEVER returns a non-zero exit code, so it can never
 # block a Claude Code session.
 
+# Load settings from the config file, if there is one.
+# This lets the plugin work no matter how Claude Code was started —
+# a terminal that sourced ~/.zshrc, the desktop app, or an IDE.
+# Values already present in the environment take precedence.
+NOTIFY_VARS="NOTIFY_PLATFORM NOTIFY_STYLE NOTIFY_LANG NOTIFY_STICKER_SET \
+NOTIFY_STICKERS TELEGRAM_BOT_TOKEN TELEGRAM_CHAT_ID DISCORD_WEBHOOK_URL \
+SLACK_WEBHOOK_URL WHATSAPP_PHONE WHATSAPP_APIKEY"
+CONFIG_FILE="${NOTIFY_ME_CONFIG:-$HOME/.notify-me.env}"
+if [ -f "$CONFIG_FILE" ]; then
+  for __v in $NOTIFY_VARS; do
+    eval "__env_$__v=\${$__v:-}"
+  done
+  set -a
+  . "$CONFIG_FILE" 2>/dev/null || true
+  set +a
+  for __v in $NOTIFY_VARS; do
+    eval "__had=\$__env_$__v"
+    [ -n "$__had" ] && eval "$__v=\$__had"
+  done
+fi
+
 # Exit silently if no platform is configured
 if [ -z "${NOTIFY_PLATFORM:-}" ]; then
   exit 0

@@ -3,8 +3,8 @@
 # notify-me — interactive setup script
 #
 # Asks you to pick a platform, prompts for the required tokens/keys,
-# and appends them as export lines to your shell config file
-# (~/.zshrc or ~/.bashrc).
+# and writes them to ~/.notify-me.env, which the plugin reads directly.
+# That way the settings apply however Claude Code was launched.
 
 set -u
 
@@ -142,14 +142,18 @@ case "$LANG_CHOICE" in
   *) MSG_LANG="en" ;;
 esac
 
+CONFIG_FILE="${NOTIFY_ME_CONFIG:-$HOME/.notify-me.env}"
+
 echo ""
-echo "The following lines will be appended to $RC_FILE:"
+echo "These settings will be written to $CONFIG_FILE:"
 echo "--------------------------------------"
 echo "export NOTIFY_PLATFORM=\"$PLATFORM\""
 echo "export NOTIFY_STYLE=\"$MSG_STYLE\""
 echo "export NOTIFY_LANG=\"$MSG_LANG\""
 echo "$EXPORTS"
 echo "--------------------------------------"
+echo "(The plugin reads this file directly, so it works in the terminal,"
+echo " the desktop app and IDE extensions alike — no shell restart needed.)"
 printf "Continue? (y/n): "
 read -r CONFIRM
 
@@ -158,16 +162,23 @@ if [ "$CONFIRM" != "y" ] && [ "$CONFIRM" != "Y" ]; then
   exit 0
 fi
 
+if [ -f "$CONFIG_FILE" ]; then
+  cp "$CONFIG_FILE" "${CONFIG_FILE}.bak" 2>/dev/null || true
+  echo "Existing config backed up to ${CONFIG_FILE}.bak"
+fi
+
 {
-  echo ""
-  echo "# notify-me plugin ($(date '+%Y-%m-%d %H:%M:%S'))"
+  echo "# notify-me plugin settings ($(date '+%Y-%m-%d %H:%M:%S'))"
   echo "export NOTIFY_PLATFORM=\"$PLATFORM\""
   echo "export NOTIFY_STYLE=\"$MSG_STYLE\""
   echo "export NOTIFY_LANG=\"$MSG_LANG\""
   echo "$EXPORTS"
-} >> "$RC_FILE"
+} > "$CONFIG_FILE"
+chmod 600 "$CONFIG_FILE" 2>/dev/null || true
 
 echo ""
-echo "✅ Done! For the changes to take effect, run:"
-echo "   source $RC_FILE"
-echo "or open a new terminal window, then restart Claude Code."
+echo "✅ Done! Restart Claude Code and you're set."
+echo ""
+echo "Tip: to have the variables in your shell too (handy for manual tests),"
+echo "add this line to $RC_FILE:"
+echo "   [ -f \"$CONFIG_FILE\" ] && . \"$CONFIG_FILE\""

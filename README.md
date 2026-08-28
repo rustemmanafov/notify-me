@@ -115,15 +115,11 @@ After installing the plugin, run in your terminal:
 bash ~/.claude/plugins/marketplaces/notify-me-marketplace/scripts/setup.sh
 ```
 
-The script will ask you to pick a platform and enter the required tokens/API keys, then automatically add them to your shell config file (`~/.zshrc` or `~/.bashrc` — it detects which shell you use).
+The script will ask you to pick a platform and enter the required tokens/API keys, then write them to `~/.notify-me.env`.
 
-Finally:
+Now restart Claude Code. Done! 🎉
 
-```bash
-source ~/.zshrc
-```
-
-and restart Claude Code. Done! 🎉
+The plugin reads that file directly, so this works the same whether you use the terminal, the desktop app or an IDE extension — see [Where settings live](#where-settings-live).
 
 > Note: the path to setup.sh may vary depending on how the plugin was installed. To find the exact path: `find ~/.claude/plugins -name setup.sh -path "*notify-me*"`
 
@@ -170,9 +166,18 @@ CallMeBot is a simple free service that requires no registration:
 
 > For the latest instructions: [callmebot.com/blog/free-api-whatsapp-messages](https://www.callmebot.com/blog/free-api-whatsapp-messages/)
 
+## Where settings live
+
+The plugin reads its settings from two places, in this order:
+
+1. **Environment variables** — anything already exported in the shell that started Claude Code.
+2. **`~/.notify-me.env`** — a plain config file (this is what `setup.sh` writes).
+
+The config file matters because the **desktop app and IDE extensions do not read `~/.zshrc`** — they never see variables exported there. Settings in `~/.notify-me.env` work everywhere: terminal, desktop app, IDE. Point `NOTIFY_ME_CONFIG` at another path to use a different file.
+
 ## Example environment values
 
-If you prefer not to use the setup script, you can add these lines to your `~/.zshrc` (or `~/.bashrc`) yourself:
+These are the settings themselves. Put them in `~/.notify-me.env` (recommended — works everywhere) or export them from your `~/.zshrc` (terminal only):
 
 ```bash
 # --- notify-me ---
