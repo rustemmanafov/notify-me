@@ -1,109 +1,109 @@
 # 🔔 notify-me
 
-Claude Code üçün bildiriş plugini. Claude Code **bir tapşırığı bitirəndə** (Stop event) və ya **sizin cavabınızı gözləyəndə** (Notification event) seçdiyiniz platformada sizə mesaj göndərir:
+A notification plugin for Claude Code. It sends you a message on your platform of choice when Claude Code **finishes a task** (Stop event) or **needs your input** (Notification event):
 
 - 📨 **Telegram**
 - 🎮 **Discord**
 - 💬 **Slack**
-- 📱 **WhatsApp** (CallMeBot vasitəsilə)
+- 📱 **WhatsApp** (via CallMeBot)
 
-Uzun çəkən tapşırıqları başladıb kompüterdən uzaqlaşanda artıq ekranı izləməyə ehtiyac yoxdur — bitəndə telefonunuza mesaj gəlir.
+Kick off a long-running task, walk away from your computer, and stop watching the screen — you'll get a message on your phone when it's done.
 
-## Necə işləyir
+## How it works
 
-Plugin Claude Code-un hook sisteminə qoşulur:
+The plugin hooks into Claude Code's hook system:
 
-| Event | Nə vaxt işə düşür | Mesaj |
+| Event | When it fires | Message |
 |---|---|---|
-| `Stop` | Claude cavabını tamamlayanda | ✅ Tapşırıq bitdi (layihə adı + vaxt) |
-| `Notification` | Claude icazə/giriş gözləyəndə | 🔔 Cavabınız gözlənilir (layihə adı + vaxt) |
+| `Stop` | When Claude finishes responding | ✅ Task finished (project name + time) |
+| `Notification` | When Claude is waiting for permission/input | 🔔 Your input is needed (project name + time) |
 
-Platforma `NOTIFY_PLATFORM` environment variable-ı ilə seçilir. Bu variable təyin olunmayıbsa, plugin **heç nə etmir və heç bir xəta vermir** — yəni quraşdırılmamış vəziyyətdə tamamilə zərərsizdir.
+The platform is selected via the `NOTIFY_PLATFORM` environment variable. If this variable is not set, the plugin **does nothing and produces no errors** — it is completely harmless when unconfigured.
 
-## Quraşdırma
+## Installation
 
-### 1. Marketplace-i əlavə edin
+### 1. Add the marketplace
 
 ```
 /plugin marketplace add rustemmanafov/notify-me
 ```
 
-### 2. Plugini quraşdırın
+### 2. Install the plugin
 
 ```
 /plugin install notify-me@notify-me-marketplace
 ```
 
-### 3. Setup skriptini işə salın
+### 3. Run the setup script
 
-Plugin quraşdırıldıqdan sonra terminalda:
+After installing the plugin, run in your terminal:
 
 ```bash
 bash ~/.claude/plugins/marketplaces/notify-me-marketplace/scripts/setup.sh
 ```
 
-Skript sizdən platformanı seçməyi və lazımi token/açarları daxil etməyi istəyəcək, sonra onları avtomatik olaraq shell konfiqurasiya faylınıza (`~/.zshrc` və ya `~/.bashrc` — hansı shell işlətdiyinizi özü müəyyən edir) əlavə edəcək.
+The script will ask you to pick a platform and enter the required tokens/API keys, then automatically add them to your shell config file (`~/.zshrc` or `~/.bashrc` — it detects which shell you use).
 
-Sonda:
+Finally:
 
 ```bash
 source ~/.zshrc
 ```
 
-və Claude Code-u yenidən başladın. Hazırdır! 🎉
+and restart Claude Code. Done! 🎉
 
-> Qeyd: setup.sh-in yolu quraşdırma üsulundan asılı olaraq dəyişə bilər. Dəqiq yolu tapmaq üçün: `find ~/.claude/plugins -name setup.sh -path "*notify-me*"`
+> Note: the path to setup.sh may vary depending on how the plugin was installed. To find the exact path: `find ~/.claude/plugins -name setup.sh -path "*notify-me*"`
 
-## Token / API key-ləri necə əldə etmək olar
+## How to get tokens / API keys
 
 ### 📨 Telegram
 
-1. Telegram-da [@BotFather](https://t.me/BotFather)-ə yazın və `/newbot` əmri ilə yeni bot yaradın.
-2. BotFather sizə **bot token** verəcək (formatı: `123456789:ABCdef...`). Bu, `TELEGRAM_BOT_TOKEN`-dir.
-3. Yaratdığınız bota istənilən mesaj göndərin (bot sizə yazmazdan əvvəl siz ona yazmalısınız).
-4. **Chat ID**-nizi öyrənmək üçün brauzerdə açın:
+1. Message [@BotFather](https://t.me/BotFather) on Telegram and create a new bot with the `/newbot` command.
+2. BotFather will give you a **bot token** (format: `123456789:ABCdef...`). This is your `TELEGRAM_BOT_TOKEN`.
+3. Send any message to your new bot (you must message the bot before it can message you).
+4. To find your **Chat ID**, open this in your browser:
    ```
    https://api.telegram.org/bot<TOKEN>/getUpdates
    ```
-   Cavabdakı `"chat":{"id":123456789}` dəyəri sizin `TELEGRAM_CHAT_ID`-nizdir.
-   (Alternativ: [@userinfobot](https://t.me/userinfobot)-a yazın, o sizə ID-nizi göstərəcək.)
+   The `"chat":{"id":123456789}` value in the response is your `TELEGRAM_CHAT_ID`.
+   (Alternative: message [@userinfobot](https://t.me/userinfobot) and it will show you your ID.)
 
 ### 🎮 Discord
 
-1. Discord serverinizdə istədiyiniz kanalın parametrlərini açın: **Edit Channel → Integrations → Webhooks**.
-2. **New Webhook** düyməsinə basın, ad verin.
-3. **Copy Webhook URL** ilə linki kopyalayın — bu, `DISCORD_WEBHOOK_URL`-dir.
-   (Formatı: `https://discord.com/api/webhooks/...`)
+1. In your Discord server, open the settings of the channel you want: **Edit Channel → Integrations → Webhooks**.
+2. Click **New Webhook** and give it a name.
+3. Copy the link with **Copy Webhook URL** — this is your `DISCORD_WEBHOOK_URL`.
+   (Format: `https://discord.com/api/webhooks/...`)
 
 ### 💬 Slack
 
-1. [api.slack.com/apps](https://api.slack.com/apps) səhifəsində **Create New App → From scratch** ilə yeni app yaradın.
-2. Sol menyudan **Incoming Webhooks** bölməsinə keçin və onu aktivləşdirin (**Activate Incoming Webhooks**).
-3. **Add New Webhook to Workspace** düyməsinə basıb kanal seçin.
-4. Yaranan **Webhook URL**-i kopyalayın — bu, `SLACK_WEBHOOK_URL`-dir.
-   (Formatı: `https://hooks.slack.com/services/...`)
+1. Go to [api.slack.com/apps](https://api.slack.com/apps) and create a new app via **Create New App → From scratch**.
+2. Open the **Incoming Webhooks** section in the left menu and enable it (**Activate Incoming Webhooks**).
+3. Click **Add New Webhook to Workspace** and choose a channel.
+4. Copy the generated **Webhook URL** — this is your `SLACK_WEBHOOK_URL`.
+   (Format: `https://hooks.slack.com/services/...`)
 
 ### 📱 WhatsApp (CallMeBot)
 
-CallMeBot pulsuz və qeydiyyatsız işləyən sadə bir servisdir:
+CallMeBot is a simple free service that requires no registration:
 
-1. Telefonunuzda bu nömrəni kontaktlara əlavə edin: **+34 644 84 71 89** (CallMeBot).
-2. Həmin nömrəyə WhatsApp-dan bu mesajı göndərin:
+1. Add this number to your phone contacts: **+34 644 84 71 89** (CallMeBot).
+2. Send this message to that number on WhatsApp:
    ```
    I allow callmebot to send me messages
    ```
-3. Bot sizə cavab olaraq **API key** göndərəcək — bu, `WHATSAPP_APIKEY`-dir.
-4. `WHATSAPP_PHONE` — öz nömrənizdir, beynəlxalq formatda (məs. `+994501234567`).
+3. The bot will reply with an **API key** — this is your `WHATSAPP_APIKEY`.
+4. `WHATSAPP_PHONE` is your own number in international format (e.g. `+994501234567`).
 
-> Ən son təlimat üçün: [callmebot.com/blog/free-api-whatsapp-messages](https://www.callmebot.com/blog/free-api-whatsapp-messages/)
+> For the latest instructions: [callmebot.com/blog/free-api-whatsapp-messages](https://www.callmebot.com/blog/free-api-whatsapp-messages/)
 
-## Nümunə environment dəyərləri
+## Example environment values
 
-Setup skriptini istəməsəniz, bu sətirləri özünüz `~/.zshrc` (və ya `~/.bashrc`) faylına əlavə edə bilərsiniz:
+If you prefer not to use the setup script, you can add these lines to your `~/.zshrc` (or `~/.bashrc`) yourself:
 
 ```bash
 # --- notify-me ---
-# Platforma seçimi: telegram | discord | slack | whatsapp
+# Platform choice: telegram | discord | slack | whatsapp
 export NOTIFY_PLATFORM="telegram"
 
 # Telegram
@@ -121,37 +121,37 @@ export WHATSAPP_PHONE="+994501234567"
 export WHATSAPP_APIKEY="123456"
 ```
 
-Yalnız seçdiyiniz platformanın dəyərlərini doldurmaq kifayətdir.
+You only need to fill in the values for the platform you chose.
 
-## Test
+## Testing
 
-Quraşdırmadan sonra bildirişin işlədiyini yoxlamaq üçün skripti əl ilə çağıra bilərsiniz:
+After setup, you can call the script manually to verify notifications work:
 
 ```bash
 echo '{"hook_event_name":"Stop","cwd":"'$PWD'"}' | bash scripts/notify.sh
 ```
 
-Seçdiyiniz platformada "✅ Claude Code tapşırığı bitirdi" mesajı gəlməlidir.
+You should receive a "✅ Claude Code finished a task" message on your chosen platform.
 
-## Fayl strukturu
+## File structure
 
 ```
 notify-me/
 ├── .claude-plugin/
-│   ├── plugin.json        # Plugin manifesti
-│   └── marketplace.json   # Marketplace tərifi
+│   ├── plugin.json        # Plugin manifest
+│   └── marketplace.json   # Marketplace definition
 ├── hooks/
-│   └── hooks.json         # Stop və Notification hook-ları
+│   └── hooks.json         # Stop and Notification hooks
 ├── scripts/
-│   ├── notify.sh          # Bildiriş göndərən skript
-│   └── setup.sh           # İnteraktiv quraşdırma skripti
+│   ├── notify.sh          # Notification sender script
+│   └── setup.sh           # Interactive setup script
 └── README.md
 ```
 
-## Təhlükəsizlik qeydi
+## Security note
 
-Token və API key-lər yalnız sizin lokal shell konfiqurasiya faylınızda saxlanılır və heç vaxt üçüncü tərəfə göndərilmir. Bildiriş mesajları yalnız layihə qovluğunun adını və vaxtı ehtiva edir — kod və ya sessiya məzmunu göndərilmir.
+Tokens and API keys are stored only in your local shell config file and are never sent to any third party. Notification messages contain only the project folder name and a timestamp — no code or session content is ever sent.
 
-## Lisenziya
+## License
 
 MIT

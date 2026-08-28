@@ -1,25 +1,26 @@
 #!/usr/bin/env bash
 #
-# notify-me — Claude Code hook bildiriş skripti
+# notify-me — Claude Code hook notification script
 #
-# Stop və Notification event-lərində işə düşür və NOTIFY_PLATFORM
-# environment variable-ına əsasən seçilmiş platformaya mesaj göndərir.
+# Runs on Stop and Notification events and sends a message to the
+# platform selected via the NOTIFY_PLATFORM environment variable.
 #
-# Bu skript HEÇ VAXT sıfırdan fərqli exit code qaytarmır ki,
-# Claude Code sessiyasını bloklamasın.
+# This script NEVER returns a non-zero exit code, so it can never
+# block a Claude Code session.
 
-# Platforma seçilməyibsə səssizcə çıx
+# Exit silently if no platform is configured
 if [ -z "${NOTIFY_PLATFORM:-}" ]; then
   exit 0
 fi
 
-# Hook-dan gələn JSON-u stdin-dən oxu (bloklanmamaq üçün timeout-suz, tək cat)
+# Read the hook JSON from stdin (single cat, non-blocking when no pipe)
 INPUT=""
 if [ ! -t 0 ]; then
   INPUT=$(cat 2>/dev/null || true)
 fi
 
-# Event adını və işçi qovluğu JSON-dan çıxar (jq varsa onu, yoxdursa sed işlət)
+# Extract the event name and working directory from the JSON
+# (use jq if available, fall back to sed)
 EVENT=""
 CWD=""
 NOTIF_MSG=""
@@ -39,22 +40,22 @@ fi
 PROJECT=$(basename "$CWD")
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
-# Event-ə görə mesaj mətnini qur
+# Build the message text based on the event
 if [ "$EVENT" = "Notification" ]; then
-  MESSAGE="🔔 Claude Code sizin cavabınızı gözləyir
-Layihə: ${PROJECT}
-Vaxt: ${TIMESTAMP}"
+  MESSAGE="🔔 Claude Code is waiting for your input
+Project: ${PROJECT}
+Time: ${TIMESTAMP}"
   if [ -n "$NOTIF_MSG" ]; then
     MESSAGE="${MESSAGE}
-Mesaj: ${NOTIF_MSG}"
+Message: ${NOTIF_MSG}"
   fi
 else
-  MESSAGE="✅ Claude Code tapşırığı bitirdi
-Layihə: ${PROJECT}
-Vaxt: ${TIMESTAMP}"
+  MESSAGE="✅ Claude Code finished a task
+Project: ${PROJECT}
+Time: ${TIMESTAMP}"
 fi
 
-# JSON string-lər üçün sadə escape (jq yoxdursa lazım olur)
+# Minimal escaping for JSON strings (needed when jq is unavailable)
 json_escape() {
   printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g' | awk '{printf "%s\\n", $0}' | sed 's/\\n$//'
 }
@@ -105,7 +106,7 @@ case "$NOTIFY_PLATFORM" in
     ;;
 
   *)
-    # Tanınmayan platforma — səssizcə keç
+    # Unknown platform — skip silently
     ;;
 esac
 

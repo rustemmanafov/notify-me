@@ -4,14 +4,14 @@
     "name": "rustemmanafov"
   },
   "metadata": {
-    "description": "notify-me pluginini yayımlayan marketplace",
+    "description": "Marketplace distributing the notify-me plugin",
     "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "notify-me",
       "source": "./",
-      "description": "Claude Code tapşırığı bitirəndə və ya sizin cavabınızı gözləyəndə Telegram, Discord, Slack və ya WhatsApp vasitəsilə bildiriş göndərir.",
+      "description": "Sends you a notification via Telegram, Discord, Slack, or WhatsApp when Claude Code finishes a task or is waiting for your input.",
       "version": "1.0.0",
       "author": {
         "name": "rustemmanafov"
