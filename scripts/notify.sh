@@ -40,9 +40,43 @@ fi
 PROJECT=$(basename "$CWD")
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
+# Funny headlines — one is picked at random for each notification.
+# Set NOTIFY_STYLE=plain to get boring (professional) headlines instead.
+FUNNY_STOP=(
+  "🎉 Done! Claude finished the job while you were sipping coffee."
+  "✅ Mission accomplished. Claude is now accepting compliments."
+  "🏁 Task finished. The robot did the work, you take the credit."
+  "🤖 Beep boop — task complete. No humans were harmed."
+  "🍕 Claude finished. You may now return to your pizza."
+  "😎 Done and dusted. Claude made it look easy."
+  "🚀 Task complete. Claude has left the chat (gracefully)."
+  "🥳 It's done! Go look busy before someone notices."
+  "🧘 Task finished. Claude is meditating until the next one."
+  "💤 All done. Claude earned a nap — you earned a snack."
+)
+FUNNY_NOTIF=(
+  "🖐️ Claude needs a human. You're the chosen one."
+  "⏳ Claude is waiting for you… patiently… very patiently…"
+  "🚨 Human input required. This is not a drill."
+  "🙏 Claude has a question. Please don't leave it on read."
+  "🔔 Knock knock. It's Claude. It needs your permission."
+  "👀 Claude is staring at the screen, waiting for your answer."
+  "📢 Attention human: your robot requires supervision."
+  "🤔 Claude hit a decision point. Time to earn your salary."
+  "🆘 Claude needs your blessing to continue."
+  "☕ Claude paused. Perfect time to check on it (and grab coffee)."
+)
+
+STYLE="${NOTIFY_STYLE:-funny}"
+
 # Build the message text based on the event
 if [ "$EVENT" = "Notification" ]; then
-  MESSAGE="🔔 Claude Code is waiting for your input
+  if [ "$STYLE" = "plain" ]; then
+    HEADLINE="🔔 Claude Code is waiting for your input"
+  else
+    HEADLINE="${FUNNY_NOTIF[$((RANDOM % ${#FUNNY_NOTIF[@]}))]}"
+  fi
+  MESSAGE="${HEADLINE}
 Project: ${PROJECT}
 Time: ${TIMESTAMP}"
   if [ -n "$NOTIF_MSG" ]; then
@@ -50,7 +84,12 @@ Time: ${TIMESTAMP}"
 Message: ${NOTIF_MSG}"
   fi
 else
-  MESSAGE="✅ Claude Code finished a task
+  if [ "$STYLE" = "plain" ]; then
+    HEADLINE="✅ Claude Code finished a task"
+  else
+    HEADLINE="${FUNNY_STOP[$((RANDOM % ${#FUNNY_STOP[@]}))]}"
+  fi
+  MESSAGE="${HEADLINE}
 Project: ${PROJECT}
 Time: ${TIMESTAMP}"
 fi

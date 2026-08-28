@@ -20,6 +20,26 @@ The plugin hooks into Claude Code's hook system:
 
 The platform is selected via the `NOTIFY_PLATFORM` environment variable. If this variable is not set, the plugin **does nothing and produces no errors** — it is completely harmless when unconfigured.
 
+## Message styles
+
+By default, every notification comes with a **random funny headline** — because getting pinged by a robot should be fun:
+
+> 🍕 Claude finished. You may now return to your pizza.
+> Project: my-app
+> Time: 2026-08-28 16:45:12
+
+> 🚨 Human input required. This is not a drill.
+> Project: my-app
+> Time: 2026-08-28 16:47:03
+
+There are 10 different headlines per event, picked at random each time. If you prefer boring notifications, set:
+
+```bash
+export NOTIFY_STYLE="plain"
+```
+
+and you'll get the professional versions instead ("✅ Claude Code finished a task" / "🔔 Claude Code is waiting for your input"). The project name and timestamp are always included either way.
+
 ## Installation
 
 ### 1. Add the marketplace
@@ -106,6 +126,9 @@ If you prefer not to use the setup script, you can add these lines to your `~/.z
 # Platform choice: telegram | discord | slack | whatsapp
 export NOTIFY_PLATFORM="telegram"
 
+# Message style: funny (default) | plain
+export NOTIFY_STYLE="funny"
+
 # Telegram
 export TELEGRAM_BOT_TOKEN="123456789:ABCdefGhIJKlmNoPQRstuVWxyz"
 export TELEGRAM_CHAT_ID="987654321"
@@ -131,7 +154,7 @@ After setup, you can call the script manually to verify notifications work:
 echo '{"hook_event_name":"Stop","cwd":"'$PWD'"}' | bash scripts/notify.sh
 ```
 
-You should receive a "✅ Claude Code finished a task" message on your chosen platform.
+You should receive a notification with a random funny headline (or "✅ Claude Code finished a task" in plain mode) on your chosen platform.
 
 ## File structure
 

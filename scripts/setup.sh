@@ -95,9 +95,24 @@ export WHATSAPP_APIKEY=\"$APIKEY\""
 esac
 
 echo ""
+echo "Message style:"
+echo "  1) Funny  — a random witty headline with every notification (default)"
+echo "  2) Plain  — boring but professional"
+echo ""
+printf "Your choice (1-2) [1]: "
+read -r STYLE_CHOICE
+
+if [ "$STYLE_CHOICE" = "2" ]; then
+  MSG_STYLE="plain"
+else
+  MSG_STYLE="funny"
+fi
+
+echo ""
 echo "The following lines will be appended to $RC_FILE:"
 echo "--------------------------------------"
 echo "export NOTIFY_PLATFORM=\"$PLATFORM\""
+echo "export NOTIFY_STYLE=\"$MSG_STYLE\""
 echo "$EXPORTS"
 echo "--------------------------------------"
 printf "Continue? (y/n): "
@@ -112,6 +127,7 @@ fi
   echo ""
   echo "# notify-me plugin ($(date '+%Y-%m-%d %H:%M:%S'))"
   echo "export NOTIFY_PLATFORM=\"$PLATFORM\""
+  echo "export NOTIFY_STYLE=\"$MSG_STYLE\""
   echo "$EXPORTS"
 } >> "$RC_FILE"
 
