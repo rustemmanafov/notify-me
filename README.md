@@ -59,7 +59,7 @@ Notifications are available in 8 languages, selected via `NOTIFY_LANG`:
 export NOTIFY_LANG="az"
 ```
 
-The labels (Project/Time) and plain-style headlines are translated too. Each language has its own set of 15 casual, friendly headlines per event — not literal translations, but jokes that actually work in that language.
+The labels (Project/Time) and plain-style headlines are translated too. Each language has its own set of 15+ casual, friendly headlines per event — not literal translations, but jokes that actually work in that language. The Azerbaijani set comes with bonus lines inspired by local viral memes. 🇦🇿
 
 ## Installation
 

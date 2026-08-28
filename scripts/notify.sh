@@ -102,6 +102,13 @@ FUNNY_STOP_AZ=(
   "🎁 Al gəldi — təzəcə bitmiş bir tapşırıq."
   "🛋️ Sən uzanmışdın, Claude işləyirdi. İş hazırdı."
   "🔥 Bitirdik! Sən demə yaxşı komandayıq."
+  "🗣️ Abi! Abi! Bir bura bax — iş bitdi!"
+  "👶 Gör inqi qaqan nağaracağ... tapşırığı bitirdi, vəssalam!"
+  "😤 Nooldu?! Heç nə, iş bitdi, sakit ol."
+  "🕺 İş bitdi, qaqaş. Gəl bax, ləzzət elə."
+  "🧿 Maşallah Claude-a, göz dəyməsin — işi bitirdi."
+  "⛏️ Claude qan-tər içində işlədi, axır ki bitirdi. Bir çay pulu düşür."
+  "🐫 Qamçısız-filansız, Claude öz xoşuna işi bitirdi. Əhsən!"
 )
 FUNNY_NOTIF_AZ=(
   "🚨 Adam lazımdı! Claude deyir (yəqin ki) heç nə xarab olmayıb."
@@ -119,6 +126,13 @@ FUNNY_NOTIF_AZ=(
   "🚪 Qapını döyən Claude-du. Aç, işi var."
   "☕ Claude fasilə verdi — sən gələnəcən çayını içə bilərsən."
   "🧠 Claude düşünüb-düşünüb axırda səndən soruşmaq qərarına gəlib."
+  "🗣️ Abi! Abi! Bir dəqiqə bura gəl, vacib sözüm var!"
+  "👶 İnqi qaqan səni gözləyir, gör nağaracağ..."
+  "😩 Ayə hardasan? Claude burda tək qalıb."
+  "🧿 Ay qaqaş, bir icazə ver, Claude işini görsün də."
+  "📞 Alo, alo? Claude-du, bir sualı var."
+  "🪢 Qamçıya ehtiyac yoxdu — Claude işləmək istəyir, sadəcə icazə gözləyir."
+  "⛓️ Claude deyir: işləməyə hazıram, bircə sən 'hə' de."
 )
 
 FUNNY_STOP_TR=(
