@@ -93,6 +93,31 @@ To find a pack's name: open the sticker pack in Telegram, tap share/copy link �
 
 `NOTIFY_STICKER_SET` takes priority when both are set; leave both unset to disable stickers. Note: `file_id`s are bot-specific (the helper script handles that), while a pack name works for any bot. Stickers work on Telegram only.
 
+## Two-way control from Telegram (optional)
+
+Beyond notifications, the plugin can let you **drive Claude from your Telegram chat** — approve a permission request, or send the next instruction — without touching the computer. Useful when Claude Code runs under a different account than the one on your phone, so the built-in remote control is not an option.
+
+Enable it (Telegram only):
+
+```bash
+export NOTIFY_CONTROL="1"
+```
+
+Then:
+
+- **Approving actions.** When Claude asks for permission, you get a message like `🔐 Claude is asking for permission — Bash: git push`. Reply `ok` to allow or `no` to deny. Answers work in English, Azerbaijani, Turkish and Russian (`ok`, `hə`, `evet`, `да` / `no`, `yox`, `hayır`, `нет`). If you don't answer within `NOTIFY_CONTROL_TIMEOUT` seconds (default 120), the normal on-screen prompt takes over — nothing is auto-approved.
+- **Sending instructions.** After Claude finishes a response it waits `NOTIFY_CONTROL_WAIT` seconds (default 60) for a Telegram message. Anything you type there — "commit and push", "run the tests" — becomes Claude's next instruction. Set `NOTIFY_CONTROL_WAIT="0"` to turn this half off and keep only approvals.
+
+```bash
+# Optional tuning
+export NOTIFY_CONTROL_TIMEOUT="120"   # seconds to wait for an approval reply
+export NOTIFY_CONTROL_WAIT="60"       # seconds to wait for a new instruction after each response
+```
+
+⚠️ **Security.** With this on, anyone who can post in your bot's chat can approve tool executions and send instructions to Claude on your machine. Only the chat ID in `TELEGRAM_CHAT_ID` is accepted, and stale messages are discarded before each approval request so an old "ok" can never approve a new action — but the bot token is the key to all of it. Keep it private, and leave `NOTIFY_CONTROL` off unless you want this.
+
+⚠️ Each session polls the same bot, so running several sessions with control enabled at once means they compete for your replies. Use it in one session at a time.
+
 ## Installation
 
 ### 1. Add the marketplace
@@ -189,6 +214,9 @@ export NOTIFY_STYLE="funny"
 
 # Message language: en (default) | az | tr | ru | zh | es | de | fr
 export NOTIFY_LANG="en"
+
+# Two-way Telegram control: 1 to enable (see "Two-way control" above)
+export NOTIFY_CONTROL="0"
 
 # Telegram stickers: a pack name, or "off" to disable
 # (defaults to the Hasbulla pack when unset)
