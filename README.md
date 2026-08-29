@@ -40,6 +40,16 @@ export NOTIFY_STYLE="plain"
 
 and you'll get the professional versions instead ("✅ Claude Code finished a task" / "🔔 Claude Code is waiting for your input"). The project name and timestamp are always included either way.
 
+## Quieting repeats
+
+`Stop` fires at the end of *every* response, not once per "job" — a single piece of work often ends in several responses in a row, and one ping each would be noise. So a "task finished" ping is skipped when another one already went out for the same project within `NOTIFY_COOLDOWN` seconds (default 45):
+
+```bash
+export NOTIFY_COOLDOWN="45"   # 0 = ping after every single response
+```
+
+"Input needed" notifications are never suppressed — those are the ones you actually have to act on.
+
 ## Languages
 
 Notifications are available in 8 languages, selected via `NOTIFY_LANG`:
@@ -214,6 +224,9 @@ export NOTIFY_STYLE="funny"
 
 # Message language: en (default) | az | tr | ru | zh | es | de | fr
 export NOTIFY_LANG="en"
+
+# Seconds to wait before repeating a "task finished" ping (0 = every response)
+export NOTIFY_COOLDOWN="45"
 
 # Two-way Telegram control: 1 to enable (see "Two-way control" above)
 export NOTIFY_CONTROL="0"

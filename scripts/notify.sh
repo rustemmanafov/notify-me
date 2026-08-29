@@ -67,6 +67,25 @@ TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 STYLE="${NOTIFY_STYLE:-funny}"
 LANG_CODE="${NOTIFY_LANG:-en}"
 
+# A single piece of work often ends in several responses in a row (especially
+# with Telegram control feeding instructions back in), and one "task finished"
+# ping per response is noise. Collapse "finished" pings that land within
+# NOTIFY_COOLDOWN seconds of the previous one for the same project.
+# "Input needed" notifications are never suppressed — those are actionable.
+COOLDOWN="${NOTIFY_COOLDOWN:-45}"
+if [ "$EVENT" != "Notification" ] && [ "${COOLDOWN:-0}" -gt 0 ] 2>/dev/null; then
+  STAMP="${TMPDIR:-/tmp}/.notify-me-last-$(printf '%s' "$CWD" | cksum | awk '{print $1}')"
+  NOW=$(date +%s)
+  if [ -f "$STAMP" ]; then
+    LAST=$(cat "$STAMP" 2>/dev/null || echo 0)
+    case "$LAST" in
+      ''|*[!0-9]*) LAST=0 ;;
+    esac
+    [ $((NOW - LAST)) -lt "$COOLDOWN" ] && exit 0
+  fi
+  printf '%s' "$NOW" > "$STAMP" 2>/dev/null || true
+fi
+
 # Everyone gets the Hasbulla sticker pack by default — this plugin is
 # about having fun. 🐐 Set NOTIFY_STICKER_SET="off" to disable stickers,
 # or set another pack name to use a different one.
