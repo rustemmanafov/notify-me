@@ -75,12 +75,16 @@ drain() {
 }
 
 # Wait up to $1 seconds for a message from the configured chat; echo its text.
+# With $1 = 0 it checks once for an already-waiting message and returns at once,
+# so a message typed while Claude was working is picked up without any delay.
 wait_for_message() {
-  local deadline=$(( $(date +%s) + $1 )) resp text uid offset
-  while [ "$(date +%s)" -lt "$deadline" ]; do
+  local deadline=$(( $(date +%s) + $1 )) resp text uid offset poll=20 first=1
+  [ "$1" -le 0 ] 2>/dev/null && poll=0
+  while [ "$first" = 1 ] || [ "$(date +%s)" -lt "$deadline" ]; do
+    first=0
     offset=$(read_offset)
-    resp=$(curl -s --max-time 30 \
-      "${API}/getUpdates?offset=${offset}&timeout=20&allowed_updates=%5B%22message%22%5D" 2>/dev/null || true)
+    resp=$(curl -s --max-time $((poll + 10)) \
+      "${API}/getUpdates?offset=${offset}&timeout=${poll}&allowed_updates=%5B%22message%22%5D" 2>/dev/null || true)
     [ -z "$resp" ] && continue
     uid=$(json_get "$resp" "[.result[] | select(.message.chat.id == ${TELEGRAM_CHAT_ID})][-1].update_id" \
       "([u for u in d.get('result',[]) if str(((u.get('message') or {}).get('chat') or {}).get('id'))=='${TELEGRAM_CHAT_ID}'] or [{}])[-1].get('update_id')")
@@ -145,8 +149,7 @@ ${T_REPLY}"
   stop)
     # Pick up an instruction typed in Telegram while Claude was working, or
     # within the wait window, and feed it back as the next thing to do.
-    WAIT="${NOTIFY_CONTROL_WAIT:-60}"
-    [ "$WAIT" -le 0 ] 2>/dev/null && exit 0
+    WAIT="${NOTIFY_CONTROL_WAIT:-0}"
     MSG=$(wait_for_message "$WAIT")
     if [ -n "$MSG" ]; then
       send_msg "${T_GOT}

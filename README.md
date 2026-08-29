@@ -106,12 +106,12 @@ export NOTIFY_CONTROL="1"
 Then:
 
 - **Approving actions.** When Claude asks for permission, you get a message like `🔐 Claude is asking for permission — Bash: git push`. Reply `ok` to allow or `no` to deny. Answers work in English, Azerbaijani, Turkish and Russian (`ok`, `hə`, `evet`, `да` / `no`, `yox`, `hayır`, `нет`). If you don't answer within `NOTIFY_CONTROL_TIMEOUT` seconds (default 120), the normal on-screen prompt takes over — nothing is auto-approved.
-- **Sending instructions.** After Claude finishes a response it waits `NOTIFY_CONTROL_WAIT` seconds (default 60) for a Telegram message. Anything you type there — "commit and push", "run the tests" — becomes Claude's next instruction. Set `NOTIFY_CONTROL_WAIT="0"` to turn this half off and keep only approvals.
+- **Sending instructions.** Anything you type in the chat while Claude is working — "commit and push", "run the tests" — becomes its next instruction as soon as the current response ends. By default (`NOTIFY_CONTROL_WAIT="0"`) this costs no waiting at all: Claude checks once for an already-waiting message and moves on. Raise it (e.g. `60`) when you step away and want Claude to pause at the end of each response and give you time to type; note that this then delays the end of *every* response by up to that many seconds.
 
 ```bash
 # Optional tuning
 export NOTIFY_CONTROL_TIMEOUT="120"   # seconds to wait for an approval reply
-export NOTIFY_CONTROL_WAIT="60"       # seconds to wait for a new instruction after each response
+export NOTIFY_CONTROL_WAIT="0"        # extra seconds to wait for an instruction after each response
 ```
 
 ⚠️ **Security.** With this on, anyone who can post in your bot's chat can approve tool executions and send instructions to Claude on your machine. Only the chat ID in `TELEGRAM_CHAT_ID` is accepted, and stale messages are discarded before each approval request so an old "ok" can never approve a new action — but the bot token is the key to all of it. Keep it private, and leave `NOTIFY_CONTROL` off unless you want this.
